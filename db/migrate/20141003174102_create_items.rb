@@ -3,8 +3,8 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.integer :item_id
       t.string :name
-      t.string :quality
-      t.string :item_class
+      t.integer :quality
+      t.integer :item_class
 
       t.timestamps
     end

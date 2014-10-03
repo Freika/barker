@@ -1,3 +1,24 @@
+# == Schema Information
+#
+# Table name: auction_items
+#
+#  id          :integer          not null, primary key
+#  item        :integer
+#  owner       :string(255)
+#  owner_realm :string(255)
+#  quantity    :integer
+#  timeleft    :string(255)
+#  rand        :integer
+#  realm       :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#  faction     :string(255)
+#  seed        :integer
+#  bid         :integer
+#  buyout      :integer
+#  auc         :integer
+#
+
 class AuctionItem < ActiveRecord::Base
 
   ITEM_CLASS = { consumnable: 0, container: 1, weapon: 2, gem: 3, armor: 4,

@@ -23,6 +23,7 @@ gem 'whenever'
 gem 'thin'
 
 group :development do
+  gem 'annotate', github: 'ctran/annotate_models'
   gem 'spring'
   gem 'rspec-rails'
 end
