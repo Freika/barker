@@ -1,6 +1,11 @@
 class AuctionsController < ApplicationController
   before_action :set_auction, only: [:show, :edit, :update, :destroy]
 
+  def refresh
+    Auction.get_current_items
+    redirect_to auctions_path
+  end
+
   def index
     @auctions = Auction.all
   end

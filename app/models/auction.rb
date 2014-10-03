@@ -7,8 +7,13 @@ class Auction < ActiveRecord::Base
     amount = {alliance: alliance, horde: horde}
   end
 
-  def self.get_current_items
-    Auction.all.each do |auction|
+  def self.tmet(slug)
+    puts a.realm_name
+  end
+
+  def self.get_current_items(realm)
+      auction = Auction.where(realm_slug: realm).first
+
       realm = auction.realm_slug
       remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}
 ")
@@ -57,7 +62,6 @@ class Auction < ActiveRecord::Base
         end
       end
 
-    end
   end
 
   def self.get_realms

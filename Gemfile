@@ -19,6 +19,8 @@ gem 'httparty'
 gem 'pry'
 gem 'coveralls', require: false
 gem 'delayed_job_active_record'
+gem 'whenever'
+gem 'thin'
 
 group :development do
   gem 'spring'
