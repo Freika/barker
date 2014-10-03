@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141003123552) do
+ActiveRecord::Schema.define(version: 20141003135911) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,8 +25,8 @@ ActiveRecord::Schema.define(version: 20141003123552) do
     t.integer  "buyout"
     t.integer  "quantity"
     t.string   "timeleft"
-    t.string   "rand"
-    t.string   "seed"
+    t.integer  "rand"
+    t.integer  "seed"
     t.string   "realm"
     t.datetime "created_at"
     t.datetime "updated_at"
