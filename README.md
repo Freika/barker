@@ -1,0 +1,1 @@
+[![Coverage Status](https://coveralls.io/repos/Freika/barker/badge.png)](https://coveralls.io/r/Freika/barker)
