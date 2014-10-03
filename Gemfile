@@ -17,10 +17,10 @@ gem 'russian', '~> 0.6.0'
 gem 'figaro'
 gem 'httparty'
 gem 'pry'
+gem 'coveralls', require: false
 
 
 group :development do
   gem 'spring'
   gem 'rspec-rails'
-
 end
