@@ -23,8 +23,7 @@ class Auction < ActiveRecord::Base
       auction = Auction.where(realm_slug: realm).first
 
       realm = auction.realm_slug
-      remote_auction =
-        HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
+      remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
       url = remote_auction['files'][0]['url']
 
       unless auction.last_modified == remote_auction['files'][0]['lastModified']
