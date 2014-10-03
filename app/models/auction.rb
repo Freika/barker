@@ -13,7 +13,6 @@
 
 class Auction < ActiveRecord::Base
 
-
   def amount_auction_items
     alliance = AuctionItem.where(realm: self.realm_slug, faction: "alliance").count
     horde = AuctionItem.where(realm: self.realm_slug, faction: "horde").count
