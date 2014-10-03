@@ -1,0 +1,10 @@
+<p id="notice"><%= notice %></p>
+
+<h3><%= @auction.realm_name %></h3>
+
+<p><%= @auction.realm_slug %></p>
+
+<p><%= @auction.connected_realms %></p>
+
+<%= link_to 'Править', edit_auction_path(@auction) %> |
+<%= link_to 'Назад', auctions_path %>
