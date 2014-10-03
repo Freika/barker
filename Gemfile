@@ -18,7 +18,7 @@ gem 'figaro'
 gem 'httparty'
 gem 'pry'
 gem 'coveralls', require: false
-
+gem 'delayed_job_active_record'
 
 group :development do
   gem 'spring'

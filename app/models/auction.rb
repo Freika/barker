@@ -1,20 +1,10 @@
 class Auction < ActiveRecord::Base
 
-  def self.test
-         AuctionItem.find_or_create_by(auc: "940697499") do |item|
-            item.auc = "940697499"
-            item.item = "52325"
-            item.owner = "Энтальрия"
-            item.owner_realm = "Гордунни"
-            item.bid = "43700"
-            item.buyout = "46000"
-            item.quantity = "2"
-            item.timeleft = "VERY_LONG"
-            item.rand = "0"
-            item.seed = "1725543168"
-            item.faction = "alliance"
-          end
 
+  def amount_auction_items
+    alliance = AuctionItem.where(realm: self.realm_slug, faction: "alliance").count
+    horde = AuctionItem.where(realm: self.realm_slug, faction: "horde").count
+    amount = {alliance: alliance, horde: horde}
   end
 
   def self.get_current_items
@@ -44,6 +34,7 @@ class Auction < ActiveRecord::Base
             item.timeleft = auction_item['timeLeft']
             item.rand = auction_item['rand']
             item.seed = auction_item['seed']
+            item.realm = realm
             item.faction = "alliance"
           end
         end
@@ -60,6 +51,7 @@ class Auction < ActiveRecord::Base
             item.timeleft = auction_item['timeLeft']
             item.rand = auction_item['rand']
             item.seed = auction_item['seed']
+            item.realm = realm
             item.faction = "horde"
           end
         end

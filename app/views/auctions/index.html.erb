@@ -4,8 +4,9 @@
   <thead>
     <tr>
       <th>Сервер</th>
-      <th>Слаг сервере</th>
+      <th>Слаг сервера</th>
       <th>Связанные миры</th>
+      <th>Количество лотов(Альянс/Орда)</th>
     </tr>
   </thead>
 
@@ -15,6 +16,9 @@
         <td><%= link_to auction.realm_name, auction %></td>
         <td><%= auction.realm_slug %></td>
         <td><%= auction.connected_realms %></td>
+        <td><%= auction.amount_auction_items[:alliance] %> /
+            <%= auction.amount_auction_items[:horde] %>
+        </td>
       </tr>
     <% end %>
   </tbody>
