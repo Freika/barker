@@ -11,26 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141003135911) do
+ActiveRecord::Schema.define(version: 20141003152019) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "auction_items", force: true do |t|
-    t.integer  "auc"
     t.integer  "item"
     t.string   "owner"
     t.string   "owner_realm"
-    t.integer  "bid"
-    t.integer  "buyout"
     t.integer  "quantity"
     t.string   "timeleft"
     t.integer  "rand"
-    t.integer  "seed"
     t.string   "realm"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "faction"
+    t.integer  "seed",        limit: 8
+    t.integer  "bid",         limit: 8
+    t.integer  "buyout",      limit: 8
+    t.integer  "auc",         limit: 8
   end
 
   create_table "auctions", force: true do |t|

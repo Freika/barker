@@ -49,7 +49,7 @@ class Auction < ActiveRecord::Base
         end
 
         horde.each do |auction_item|
-          AuctionItem.find_or_create_by(auc: item['auc']) do |item|
+          AuctionItem.find_or_create_by(auc: auction_item['auc']) do |item|
             item.auc = auction_item['auc']
             item.item = auction_item['item']
             item.owner = auction_item['owner']
