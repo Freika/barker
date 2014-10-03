@@ -18,3 +18,26 @@
 # end
 
 # Learn more: http://github.com/javan/whenever
+
+every 1.hour do
+    rake "auctions:items:razuvious"
+    rake "auctions:items:grom"
+    rake "auctions:items:greymane"
+    rake "auctions:items:gordunni"
+    rake "auctions:items:goldrinn"
+    rake "auctions:items:galakrond"
+    rake "auctions:items:fordragon"
+    rake "auctions:items:eversong"
+    rake "auctions:items:deepholm"
+    rake "auctions:items:deathweaver"
+    rake "auctions:items:deathguard"
+    rake "auctions:items:boreantundra"
+    rake "auctions:items:bootybay"
+    rake "auctions:items:blackscar"
+    rake "auctions:items:ashenvale"
+    rake "auctions:items:thermaplugg"
+    rake "auctions:items:azuregos"
+    rake "auctions:items:soulflayer"
+    rake "auctions:items:lichking"
+    rake "auctions:items:howlingfjord"
+end
