@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+realms = [["Разувий", "razuvious"], ["Ревущий фьорд", "howling-fjord"], ["Король Лич", "lich-king"], ["Свежеватель душ", "soulflayer"], ["Азурегос", "azuregos"], ["Страж смерти", "deathguard"], ["Термоштепсель", "thermaplugg"], ["Ясеневый лес", "ashenvale"], ["Черный шрам", "blackscar"], ["Пиратская бухта", "booty-bay"], ["Борейская тундра", "borean-tundra"], ["Ткач смерти", "deathweaver"], ["Подземье", "deepholm"], ["Вечная песня", "eversong"], ["Дракономор", "fordragon"], ["Галакронд", "galakrond"], ["Голдринн", "goldrinn"], ["Гордунни", "gordunni"], ["Седогрив", "greymane"], ["Гром", "grom"]]
+
+realms.each do |realm|
+  Auction.create(realm_name: realm.first, realm_slug: realm.last)
+end
