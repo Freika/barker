@@ -12,66 +12,68 @@
 #
 
 class Auction < ActiveRecord::Base
-
+  require 'httparty'
   def amount_auction_items
     alliance = AuctionItem.where(realm: self.realm_slug, faction: "alliance").count
     horde = AuctionItem.where(realm: self.realm_slug, faction: "horde").count
-    amount = {alliance: alliance, horde: horde}
+    amount = { alliance: alliance, horde: horde }
   end
 
   def self.get_current_items(realm)
-      auction = Auction.where(realm_slug: realm).first
+    auction = Auction.where(realm_slug: realm).first
 
-      realm = auction.realm_slug
-      remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
-      url = remote_auction['files'][0]['url']
+    realm = auction.realm_slug
+    # remote_auction для получения метки времени последнего обновления, заменить
+    # на использование метода remote_auction
+    remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
+    url = remote_auction['files'][0]['url']
 
-      unless auction.last_modified == remote_auction['files'][0]['lastModified']
-        auction.update last_modified: remote_auction['files'][0]['lastModified']
-        auction_items = HTTParty.get(url)
+    unless auction.last_modified == remote_auction['files'][0]['lastModified']
+      auction.update last_modified: remote_auction['files'][0]['lastModified']
+      auction_items = HTTParty.get(url)
 
-        alliance = Auction.remote_auction(realm)[:alliance]
-        horde = Auction.remote_auction(realm)[:horde]
+      alliance = Auction.remote_auction(realm)[:alliance]
+      horde = Auction.remote_auction(realm)[:horde]
 
-        alliance.each do |auction_item|
-          AuctionItem.find_or_create_by(auc: auction_item['auc']) do |item|
-            Item.add_to_db auction_item['item']
+      alliance.each do |auction_item|
+        AuctionItem.find_or_create_by(auc: auction_item['auc']) do |item|
+          Item.add_to_db auction_item['item']
 
-            item.auc = auction_item['auc']
-            item.item = auction_item['item']
-            item.owner = auction_item['owner']
-            item.owner_realm = auction_item['ownerRealm']
-            item.bid = auction_item['bid']
-            item.buyout = auction_item['buyout']
-            item.quantity = auction_item['quantity']
-            item.timeleft = auction_item['timeLeft']
-            item.rand = auction_item['rand']
-            item.seed = auction_item['seed']
-            item.realm = realm
-            item.faction = "alliance"
-          end
+          item.auc = auction_item['auc']
+          item.item = auction_item['item']
+          item.owner = auction_item['owner']
+          item.owner_realm = auction_item['ownerRealm']
+          item.bid = auction_item['bid']
+          item.buyout = auction_item['buyout']
+          item.quantity = auction_item['quantity']
+          item.timeleft = auction_item['timeLeft']
+          item.rand = auction_item['rand']
+          item.seed = auction_item['seed']
+          item.realm = realm
+          item.faction = "alliance"
         end
-
-        horde.each do |auction_item|
-          AuctionItem.find_or_create_by(auc: auction_item['auc']) do |item|
-            Item.add_to_db auction_item['item']
-
-            item.auc = auction_item['auc']
-            item.item = auction_item['item']
-            item.owner = auction_item['owner']
-            item.owner_realm = auction_item['ownerRealm']
-            item.bid = auction_item['bid']
-            item.buyout = auction_item['buyout']
-            item.quantity = auction_item['quantity']
-            item.timeleft = auction_item['timeLeft']
-            item.rand = auction_item['rand']
-            item.seed = auction_item['seed']
-            item.realm = realm
-            item.faction = "horde"
-          end
-        end
-
       end
+
+      horde.each do |auction_item|
+        AuctionItem.find_or_create_by(auc: auction_item['auc']) do |item|
+          Item.add_to_db auction_item['item']
+
+          item.auc = auction_item['auc']
+          item.item = auction_item['item']
+          item.owner = auction_item['owner']
+          item.owner_realm = auction_item['ownerRealm']
+          item.bid = auction_item['bid']
+          item.buyout = auction_item['buyout']
+          item.quantity = auction_item['quantity']
+          item.timeleft = auction_item['timeLeft']
+          item.rand = auction_item['rand']
+          item.seed = auction_item['seed']
+          item.realm = realm
+          item.faction = "horde"
+        end
+      end
+
+    end
   end
 
   def self.get_realms
@@ -158,8 +160,12 @@ class Auction < ActiveRecord::Base
     # alliance = auction_items['alliance']['auctions']
     # horde = auction_items['horde']['auctions']
     auction_items = HTTParty.get(url)
-    auction_items = {alliance: auction_items['alliance']['auctions'],
-     horde: auction_items['horde']['auctions']}
+    auction_items = { alliance: auction_items['alliance']['auctions'],
+     horde: auction_items['horde']['auctions'] }
   end
+
+  # def self.set_expired
+
+  # end
 
 end

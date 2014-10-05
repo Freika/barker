@@ -17,6 +17,7 @@
 #  bid         :integer
 #  buyout      :integer
 #  auc         :integer
+#  expired     :boolean          default(FALSE)
 #
 
 class AuctionItem < ActiveRecord::Base

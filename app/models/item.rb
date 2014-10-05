@@ -16,7 +16,7 @@ class Item < ActiveRecord::Base
 
   def self.add_to_db(item_id)
     Item.find_or_create_by(item_id: item_id) do |item|
-      remote_item = HTTParty.get("https://eu.api.battle.net/wow/item/18803?locale=ru_RU&apikey=#{ENV['bnet_key']}
+      remote_item = HTTParty.get("https://eu.api.battle.net/wow/item/#{item_id}?locale=ru_RU&apikey=#{ENV['bnet_key']}
 ")
       item.item_id = item_id
       item.name = remote_item['name']
