@@ -121,38 +121,34 @@ class Auction < ActiveRecord::Base
 
   end
 
-  # def self.fetch_auction_items_for(realm, auction_items, faction)
-  #   faction = auction_items["#{faction}"]['auctions']
-
-  #   faction.each do |auction_item|
-  #     AuctionItem.find_or_create_by(auc: auction_item['auc']) do |item|
-  #       Item.add_to_db(auction_item['item'])
-  #       item.auc = auction_item['auc']
-  #       item.item = auction_item['item']
-  #       item.owner = auction_item['owner']
-  #       item.owner_realm = auction_item['ownerRealm']
-  #       item.bid = auction_item['bid']
-  #       item.buyout = auction_item['buyout']
-  #       item.quantity = auction_item['quantity']
-  #       item.timeleft = auction_item['timeLeft']
-  #       item.rand = auction_item['rand']
-  #       item.seed = auction_item['seed']
-  #       item.realm = realm
-  #       item.faction = "#{faction}"
-  #     end
-  #   end
-  # end
-
-
   def self.remote_auction(realm)
     remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
-    url = remote_auction['files'][0]['url']
-    # alliance = auction_items['alliance']['auctions']
-    # horde = auction_items['horde']['auctions']
-    auction_items = HTTParty.get(url)
-    auction_items = { alliance: auction_items['alliance']['auctions'],
-     horde: auction_items['horde']['auctions'] }
+    local_auction = Auction.where(realm_slug: realm).first
+
+    unless local_auction.last_modified == remote_auction['files'][0]['lastModified']
+      local_auction.last_modified = remote_auction['files'][0]['lastModified']
+      auction_items = HTTParty.get(remote_auction['files'][0]['url'])
+      local_auction.update auction_json: auction_items.to_s
+    else
+      puts "not modified"
+    end
+
+    # auction_items = { alliance: auction_items['alliance']['auctions'],
+    #  horde: auction_items['horde']['auctions'] }
   end
 
+# private
+
+  def self.download_json(url, realm)
+    url.slice! "http://eu.battle.net"
+    Net::HTTP.start("eu.battle.net") do |http|
+        resp = http.get(url)
+        open("public/#{realm}.json", "wb") do |file|
+            file.write(resp.body)
+        end
+    end
+  end
 
 end
+
+
