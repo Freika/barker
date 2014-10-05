@@ -125,27 +125,28 @@ class Auction < ActiveRecord::Base
     remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
     local_auction = Auction.where(realm_slug: realm).first
 
-    unless local_auction.last_modified == remote_auction['files'][0]['lastModified']
-      local_auction.last_modified = remote_auction['files'][0]['lastModified']
-      auction_items = HTTParty.get(remote_auction['files'][0]['url'])
-      local_auction.update auction_json: auction_items.to_s
+    unless local_auction.last_modified == remote_auction['files'][0]['lastModified'] # проверить, точно ли берет локальный в случае чего
+      local_auction.update last_modified: remote_auction['files'][0]['lastModified']
+      Auction.download_json(remote_auction['files'][0]['url'], realm)
+      auction = HTTParty.get("http://barker.dev/auctions/#{realm}.json") # Сделать переменные окружения для адресов, грязно, но пока пойдет
     else
-      puts "not modified"
+      auction = HTTParty.get("http://barker.dev/auctions/#{realm}.json")
     end
 
-    # auction_items = { alliance: auction_items['alliance']['auctions'],
-    #  horde: auction_items['horde']['auctions'] }
+    auction_items = { alliance: auction['alliance']['auctions'],
+     horde: auction['horde']['auctions'] }
+
   end
 
-# private
+private
 
   def self.download_json(url, realm)
     url.slice! "http://eu.battle.net"
     Net::HTTP.start("eu.battle.net") do |http|
-        resp = http.get(url)
-        open("public/#{realm}.json", "wb") do |file|
-            file.write(resp.body)
-        end
+      resp = http.get(url)
+      open("public/auctions/#{realm}.json", "wb") do |file|
+        file.write(resp.body)
+      end
     end
   end
 
