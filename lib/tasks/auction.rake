@@ -101,6 +101,107 @@ namespace :auctions do
     task :howlingfjord => :environment do
       Auction.get_current_items("howling-fjord")
     end
+
+    #make items expire
+    desc "razuvious"
+    task :razuvious => :environment do
+      AuctionItem.set_expired("razuvious")
+    end
+
+    desc "grom"
+    task :grom => :environment do
+      AuctionItem.set_expired("grom")
+    end
+
+    desc "greymane"
+    task :greymane => :environment do
+      AuctionItem.set_expired("greymane")
+    end
+
+    desc "gordunni"
+    task :gordunni => :environment do
+      AuctionItem.set_expired("gordunni")
+    end
+
+    desc "goldrinn"
+    task :goldrinn => :environment do
+      AuctionItem.set_expired("goldrinn")
+    end
+
+    desc "galakrond"
+    task :galakrond => :environment do
+      AuctionItem.set_expired("galakrond")
+    end
+
+    desc "fordragon"
+    task :fordragon => :environment do
+      AuctionItem.set_expired("fordragon")
+    end
+
+    desc "eversong"
+    task :eversong => :environment do
+      AuctionItem.set_expired("eversong")
+    end
+
+    desc "deepholm"
+    task :deepholm => :environment do
+      AuctionItem.set_expired("deepholm")
+    end
+
+    desc "deathweaver"
+    task :deathweaver => :environment do
+      AuctionItem.set_expired("deathweaver")
+    end
+
+    desc "deathguard"
+    task :deathguard => :environment do
+      AuctionItem.set_expired("deathguard")
+    end
+
+    desc "boreantundra"
+    task :boreantundra => :environment do
+      AuctionItem.set_expired("borean-tundra")
+    end
+
+    desc "bootybay"
+    task :bootybay => :environment do
+      AuctionItem.set_expired("booty-bay")
+    end
+
+    desc "blackscar"
+    task :blackscar => :environment do
+      AuctionItem.set_expired("blackscar")
+    end
+
+    desc "ashenvale"
+    task :ashenvale => :environment do
+      AuctionItem.set_expired("ashenvale")
+    end
+
+    desc "thermaplugg"
+    task :thermaplugg => :environment do
+      AuctionItem.set_expired("thermaplugg")
+    end
+
+    desc "azuregos"
+    task :azuregos => :environment do
+      AuctionItem.set_expired("azuregos")
+    end
+
+    desc "soulflayer"
+    task :soulflayer => :environment do
+      AuctionItem.set_expired("soulflayer")
+    end
+
+    desc "lichking"
+    task :lichking => :environment do
+      AuctionItem.set_expired("lich-king")
+    end
+
+    desc "howlingfjord"
+    task :howlingfjord => :environment do
+      AuctionItem.set_expired("howling-fjord")
+    end
   end
 
 end

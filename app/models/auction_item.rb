@@ -53,10 +53,16 @@ class AuctionItem < ActiveRecord::Base
 
   def self.set_expired(realm)
     remote_auction = Auction.remote_auction(realm)
-    remote_auction.each do |item|
-      auction_item AuctionItem.find_by auc: item['auc'],
+    items_timeleft_short = AuctionItem.where(timeleft: "SHORT").pluck(:auc)
+    remote_aucs = remote_auction[:alliance].map { |x| x['auc'] }
+      .concat remote_auction[:horde].map { |x| x['auc'] }
+    intersection = remote_aucs & items_timeleft_short
+    to_expire = intersection - items_timeleft_short
 
+    to_expire.each do |auc|
+      AuctionItem.where(auc: auc).first.update(expired: true)
     end
+
   end
 
 
