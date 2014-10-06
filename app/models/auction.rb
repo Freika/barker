@@ -37,25 +37,6 @@ class Auction < ActiveRecord::Base
 
       alliance.each do |auction_item|
         AuctionItem.add_to_db(auction_item, realm, "alliance")
-
-        # found_item = AuctionItem.where(auc: auction_item['auc']).first_or_create do |item|
-        #   Item.add_to_db auction_item['item']
-
-        #   item.auc = auction_item['auc']
-        #   item.item = auction_item['item']
-        #   item.owner = auction_item['owner']
-        #   item.owner_realm = auction_item['ownerRealm']
-        #   item.bid = auction_item['bid']
-        #   item.buyout = auction_item['buyout']
-        #   item.quantity = auction_item['quantity']
-        #   item.timeleft = auction_item['timeLeft']
-        #   item.rand = auction_item['rand']
-        #   item.seed = auction_item['seed']
-        #   item.realm = realm
-        #   item.faction = "alliance"
-        # end
-        # found_item.timeleft = auction_item['timeLeft']
-        # found_item.save!
       end
 
       horde.each do |auction_item|
@@ -125,7 +106,7 @@ class Auction < ActiveRecord::Base
     remote_auction = HTTParty.get("https://eu.api.battle.net/wow/auction/data/#{realm}?locale=ru_RU&apikey=#{ENV['bnet_key']}")
     local_auction = Auction.where(realm_slug: realm).first
 
-    unless local_auction.last_modified == remote_auction['files'][0]['lastModified'] # проверить, точно ли берет локальный в случае чего
+    unless local_auction.last_modified.to_i == remote_auction['files'][0]['lastModified']
       local_auction.update last_modified: remote_auction['files'][0]['lastModified']
       Auction.download_json(remote_auction['files'][0]['url'], realm)
       auction = HTTParty.get("http://barker.dev/auctions/#{realm}.json") # Сделать переменные окружения для адресов, грязно, но пока пойдет
