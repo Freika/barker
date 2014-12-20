@@ -1,0 +1,12 @@
+p#notice = notice
+
+p
+  b Realm:
+  = @auction.realm
+p
+  b Slug:
+  = @auction.slug
+
+= link_to 'Edit', edit_auction_path(@auction)
+'|
+= link_to 'Back', auctions_path
